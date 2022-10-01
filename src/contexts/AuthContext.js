@@ -2,6 +2,8 @@ import React, { useContext, useState, useEffect } from 'react'
 import { auth } from '../firebase'
 const AuthContext = React.createContext()
 
+export const currentUser = true;
+
 export function useAuth() {
     return useContext(AuthContext)
 }
@@ -33,6 +35,7 @@ export function AuthProvider({ children }) {
 
         return unsubscribe
     }, [])
+
 
     const value = {
         currentUser,
