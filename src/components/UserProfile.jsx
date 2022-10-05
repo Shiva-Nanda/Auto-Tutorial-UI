@@ -12,16 +12,15 @@ class UserProfile extends Component {
       countries,
       children
     } = this.props;
-    console.log(children)
     return (
-      <Card>
+      <Card 
+      style={{
+        minWidth: "300px",
+        maxWidth: "32vw",
+      }}
+      >
         <Card.Body>
-          <form
-            style={{
-              minWidth: "20vw",
-              maxWidth: "40vw",
-            }}
-          >
+          <form>
             <div className="form-group m-4">
               <TextField
                 required

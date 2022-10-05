@@ -3,22 +3,29 @@ import Dashboard from "./Dashboard";
 import Login from "./Login";
 import { Container } from "react-bootstrap";
 import { AuthProvider } from "../contexts/AuthContext";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
 import Profiles from "./Profiles";
+import SmIcons from "./SmIcons";
+import NavBar from "./NavBar";
+import TempComp from "./tempComp";
+
 
 function App() {
   return (
     <AuthProvider>
+      <NavBar />
       <Container
         className="d-flex align-items-center justify-content-center"
-        style={{ minHeight: "100vh" }}
+        style={{ minHeight: "100vh", minWidth: "100vw"}}
       >
         <div>
           <Router>
             <AuthProvider>
               <Routes>
-                <Route path="/test" element={<Profiles />} />
+                <Route path="/debug" element={<div></div>} /> 
+                <Route path="/test" element={<Profiles 
+                />} />
                 <Route
                   exact
                   path="/"
@@ -31,29 +38,13 @@ function App() {
                 <Route
                   path="/signup"
                   element={
-                    <div
-                      className="w-100"
-                      style={{
-                        minWidth: "400px",
-                        maxWidth: "600px",
-                      }}
-                    >
-                      <Signup />
-                    </div>
+                    <Signup />
                   }
                 />
                 <Route
                   path="/login"
                   element={
-                    <div
-                      className="w-100"
-                      style={{
-                        minWidth: "400px",
-                        maxWidth: "600px",
-                      }}
-                    >
                       <Login />
-                    </div>
                   }
                 />
               </Routes>

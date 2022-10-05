@@ -1,13 +1,13 @@
 import React, { useState} from 'react'
 import { Card, Button, Alert } from 'react-bootstrap'
 import { useAuth, getEmail } from '../contexts/AuthContext'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 export default function Dashboard() {
     const [error, setError] = useState("")
     const { currentUser, logout } = useAuth()
     const email = getEmail()
-    console.log("email" + email)
+    // console.log("email" + email)
     const navigateTo = useNavigate()
 
     async function handleLogout() {
@@ -15,8 +15,10 @@ export default function Dashboard() {
 
         try {
             await logout()
-            navigateTo('/')
+            // console.log("dashnoard " + currentUser)
+            navigateTo('/login')
         } catch {
+            // console.log("failed to logout dashboard")
             setError("Failed to logout")
         }
     }
@@ -30,11 +32,11 @@ export default function Dashboard() {
                 <strong>Email:</strong> {currentUser.email}
             </Card.Body>
         </Card>
-        <div className='w-100 text-center mt-2'>
+        {/* <div className='w-100 text-center mt-2'>
             <Button variant='link' onClick={handleLogout}>
                 Log Out
             </Button>
-        </div>
+        </div> */}
     </>
   )
 }

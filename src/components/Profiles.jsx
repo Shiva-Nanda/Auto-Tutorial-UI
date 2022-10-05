@@ -1,114 +1,81 @@
 import { Button } from "@mui/material";
-import React, { Component, useState, useEffect } from "react";
+import React, { Component, useState } from "react";
 import OrganizationProfile from "./OrganizationProfile";
 import UserProfile from "./UserProfile";
 import { Link, useNavigate } from "react-router-dom";
-import { Route, Navigate } from "react-router-dom";
-// const navigateTo = useNavigate();
-// const [profileCompleted, setProfileCompleted] = useState(0);
-// const [dispOrg, setDispOrg] = useState(false);
 
-class Profiles extends Component {
-  // [profileCompleted, setProfileCompleted];
-  //  [dispOrg, setDispOrg];
-  state = {
-    navigateTo: useNavigate(),
-    userName: "",
-    userHandle: "",
-    country: "India",
-    organization: {
-      name: "",
-      handle: "",
-      country: "India",
-      website: "",
-      profileCompleted: 0,
-    },
-    showOrganizations: false,
-    countries: ["India", "USA", "UK"],
-  };
+
+const Profiles = () => {
+  const [userName, setuserName] = useState("");
+  const [userHandle, setuserHandle] = useState("");
+  const [userCountry, setuserCountry] = useState("India");
+  const [orgName, setOrgName] = useState("");
+  const [orgHandle, setOrgHandle] = useState("");
+  const [orgWbesite, setOrgWebsite] = useState("");
+  const [orgCountry, setOrgCountry] = useState("India");
+  const [showOrgs, setShowOrgs] = useState(false);
+  const countries = ["India", "USA", "UK"];
+  const navigateTo = useNavigate();
 
   // -------------Organization-------------------
-  updateOrgName = (event) => {
-    const new_organization = { ...this.state.organization };
-    new_organization.name = event.target.value;
-    this.setState({ organization: new_organization });
+  const updateOrgName = (event) => {
+    setOrgName(event.target.value);
   };
 
-  updateOrgHandle = (event) => {
-    const new_organization = { ...this.state.organization };
-    new_organization.handle = event.target.value;
-    this.setState({ organization: new_organization });
+  const updateOrgHandle = (event) => {
+    setOrgHandle(event.target.value);
   };
 
-  updateOrgCountry = (event) => {
-    const new_organization = { ...this.state.organization };
-    new_organization.country = event.target.value;
-    this.setState({ organization: new_organization });
+  const updateOrgCountry = (event) => {
+    setOrgCountry(event.target.value);
   };
 
-  updateOrgWebsite = (event) => {
-    const new_organization = { ...this.state.organization };
-    new_organization.website = event.target.value;
-    this.setState({ organization: new_organization });
+  const updateOrgWebsite = (event) => {
+    setOrgWebsite(event.target.value);
   };
 
-  handleOrgSubmit = () => {
-    console.log(this.state.organization);
-    this.setState({ profileCompleted: 2 });
-    useEffect(() => {
-      if (
-        (this.state.showOrganizations == false &&
-          this.state.profileCompleted == 1) ||
-        (this.state.showOrganization == true &&
-          this.state.profileCompleted == 2)
-      ) {
-        this.state.navigateTo("/");
-      }
-    });
-  };
 
   // -------------User-----------
-  updateUserName = (event) => {
-    this.setState({ userName: event.target.value });
+  const updateUserName = (event) => {
+    setuserName(event.target.value);
   };
 
-  updateUserHandle = (event) => {
-    this.setState({ userHandle: event.target.value });
+  const updateUserHandle = (event) => {
+    setuserHandle(event.target.value);
   };
 
-  updateCountry = (event) => {
-    this.setState({ country: event.target.value });
+  const updateCountry = (event) => {
+    setuserCountry(event.target.value);
   };
 
-  handleUserSubmit = () => {
-    console.log("userName " + this.state.userName);
-    console.log("userHandle " + this.state.userHandle);
-    console.log("Country " + this.state.country);
-    this.setState({ profileCompleted: 1 });
-    // console.log(this.state.showOrganizations , this.state.profileCompleted);
-    useEffect(() => {
-      if (
-        (this.state.showOrganization == false &&
-          this.state.profileCompleted == 1) ||
-        (this.state.showOrganization == true &&
-          this.state.profileCompleted == 2)
-      ) {
-        this.state.navigateTo("/");
-      }
-    });
+  const handleUserSubmit = () => {
+    console.log("User details: ");
+    console.log("userName " + userName);
+    console.log("userHandle " + userHandle);
+    console.log("Country " + userCountry);
+    if (showOrgs)
+    {
+      console.log("Org Details: ")
+      console.log("Organization Name" + orgName);
+      console.log("Organization Handle" + orgHandle);
+      console.log("Organization Country" + orgCountry);
+      console.log("Organization Website" + orgWbesite);
+    }
+    navigateTo("/");
+    
   };
 
   //----------------Profiles---------------------
 
-  changeOrgDisplay = () => {
-    const new_state = !this.state.showOrganizations;
+  const changeOrgDisplay = () => {
+    const new_state = !showOrgs;
     // setDispOrg(new_state);
-    this.setState({ showOrganizations: new_state });
+    setShowOrgs(new_state);
   };
 
-  getOrgButtonText = () => {
+  const getOrgButtonText = () => {
     let text;
-    if (this.state.showOrganizations === true) {
+    if (showOrgs === true) {
       text = "I don't want to create Organization";
     } else {
       text = "I want to Create Organization";
@@ -116,9 +83,8 @@ class Profiles extends Component {
     return text;
   };
 
-  render() {
-    return (
-      <div
+  return ( 
+    <div
         className="container w-100"
         style={{
           minWidth: "50vw",
@@ -128,36 +94,35 @@ class Profiles extends Component {
         <div className="row justify-content-md-center">
           <div className="col-md-auto">
             <UserProfile
-              updateUserName={this.updateUserName}
-              updateUserHandle={this.updateUserHandle}
-              updateCountry={this.updateCountry}
-              handleUserSubmit={this.handleUserSubmit}
-              countries={this.state.countries}
+              updateUserName={updateUserName}
+              updateUserHandle={updateUserHandle}
+              updateCountry={updateCountry}
+              handleUserSubmit={handleUserSubmit}
+              countries={countries}
             >
               <Button
                 className=" w-100 mt-2"
                 variant="contained"
-                onClick={this.changeOrgDisplay}
+                onClick={changeOrgDisplay}
               >
-                {this.getOrgButtonText()}
+                {getOrgButtonText()}
               </Button>
             </UserProfile>
           </div>
           <div className="col-md-auto">
-            {this.state.showOrganizations && (
+            {showOrgs && (
               <OrganizationProfile
-                updateOrgName={this.updateOrgName}
-                updateOrgHandle={this.updateOrgHandle}
-                updateOrgCountry={this.updateOrgCountry}
-                updateOrgWebsite={this.updateOrgWebsite}
-                handleOrgSubmit={this.handleOrgSubmit}
+                updateOrgName={updateOrgName}
+                updateOrgHandle={updateOrgHandle}
+                updateOrgCountry={updateOrgCountry}
+                updateOrgWebsite={updateOrgWebsite}
+                countries={countries}
               />
             )}
           </div>
         </div>
       </div>
-    );
-  }
+   );
 }
-
+ 
 export default Profiles;

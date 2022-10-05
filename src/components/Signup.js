@@ -14,11 +14,12 @@ export default function Signup() {
   const navigateTo = useNavigate();
   const [user, setUser] = useState("");
 
-  useEffect(() => {
-    if (currentUser) {
-      navigateTo("/test");
-    }
-  });
+  // useEffect(() => {
+  //   console.log(currentUser)
+  //   if (currentUser) {
+  //     navigateTo("/test");
+  //   }
+  // });
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -31,7 +32,7 @@ export default function Signup() {
       setError("");
       setLoading(true);
       await signup(emailRef.current.value, passwordRef.current.value);
-      //   <Link to="/signup"></Link>;
+      navigateTo("/test");
     } catch (err) {
       switch (err.code) {
         case "auth/email-already-in-use":
@@ -53,7 +54,12 @@ export default function Signup() {
   // }
   return (
     <>
-      <Card>
+      <Card 
+        style={{
+          minWidth: "400px",
+          maxWidth: "600px",
+        }}
+      >
         <Card.Body>
           <h2 className="text-center mb-4">Sign Up</h2>
           {error && <Alert variant="danger">{error}</Alert>}
