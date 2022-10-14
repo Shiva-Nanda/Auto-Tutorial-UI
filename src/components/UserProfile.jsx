@@ -16,7 +16,7 @@ class UserProfile extends Component {
       <Card 
       style={{
         minWidth: "300px",
-        maxWidth: "32vw",
+        maxWidth: "400px",
       }}
       >
         <Card.Body>

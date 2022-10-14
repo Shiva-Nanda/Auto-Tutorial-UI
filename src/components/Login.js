@@ -4,11 +4,11 @@ import { useAuth } from "../contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import SmIcons from "./SmIcons";
 import { Divider } from "@mui/material";
+import { logIn } from "../contexts/newAuth";
 
 export default function Login() {
   const emailRef = useRef();
   const passwordRef = useRef();
-  const { login } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigateTo = useNavigate();
@@ -19,7 +19,7 @@ export default function Login() {
     try {
       setError("");
       setLoading(true);
-      await login(emailRef.current.value, passwordRef.current.value);
+      await logIn(emailRef.current.value, passwordRef.current.value);
       navigateTo("/");
     } catch (err) {
       switch (err.code) {
@@ -36,13 +36,13 @@ export default function Login() {
     setLoading(false);
   }
   return (
-    <>
-      <Card
-        style={{
-          minWidth: "400px",
-          maxWidth: "600px",
-        }}
-      >
+    <div
+      style={{
+        minWidth: "400px",
+        maxWidth: "600px",
+      }}
+    >
+      <Card>
         <Card.Body>
           <h2 className="text-center mb-4">Log In</h2>
           {error && <Alert variant="danger">{error}</Alert>}
@@ -61,12 +61,12 @@ export default function Login() {
             </Button>
           </Form>
           <Divider />
-            <SmIcons />
+          <SmIcons />
         </Card.Body>
       </Card>
       <div className="w-100 text-center mt-2">
         Dont have an Account? <Link to="/signup">Sign Up</Link>
       </div>
-    </>
+    </div>
   );
 }

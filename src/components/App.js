@@ -14,7 +14,7 @@ import TempComp from "./tempComp";
 function App() {
   return (
     <AuthProvider>
-      <NavBar />
+      <NavBar style={{ margin: '0' }}/>
       <Container
         className="d-flex align-items-center justify-content-center"
         style={{ minHeight: "100vh", minWidth: "100vw"}}

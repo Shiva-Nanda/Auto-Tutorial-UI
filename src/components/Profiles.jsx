@@ -3,7 +3,15 @@ import React, { Component, useState } from "react";
 import OrganizationProfile from "./OrganizationProfile";
 import UserProfile from "./UserProfile";
 import { Link, useNavigate } from "react-router-dom";
-
+import { db } from "../firebase";
+import {
+  getFirestore,
+  query,
+  getDocs,
+  collection,
+  where,
+  addDoc,
+} from "firebase/firestore";
 
 const Profiles = () => {
   const [userName, setuserName] = useState("");
@@ -34,7 +42,6 @@ const Profiles = () => {
     setOrgWebsite(event.target.value);
   };
 
-
   // -------------User-----------
   const updateUserName = (event) => {
     setuserName(event.target.value);
@@ -48,21 +55,46 @@ const Profiles = () => {
     setuserCountry(event.target.value);
   };
 
-  const handleUserSubmit = () => {
-    console.log("User details: ");
-    console.log("userName " + userName);
-    console.log("userHandle " + userHandle);
-    console.log("Country " + userCountry);
-    if (showOrgs)
-    {
-      console.log("Org Details: ")
-      console.log("Organization Name" + orgName);
-      console.log("Organization Handle" + orgHandle);
-      console.log("Organization Country" + orgCountry);
-      console.log("Organization Website" + orgWbesite);
+  const handleUserSubmit = async () => {
+    const show = true;
+    if (show) {
+      console.log("User details: ");
+      console.log("userName " + userName);
+      console.log("userHandle " + userHandle);
+      console.log("Country " + userCountry);
+      if (showOrgs) {
+        console.log("Org Details: ");
+        console.log("Organization Name" + orgName);
+        console.log("Organization Handle" + orgHandle);
+        console.log("Organization Country" + orgCountry);
+        console.log("Organization Website" + orgWbesite);
+      }
     }
-    navigateTo("/");
-    
+    const q = query(collection(db, "users"), where("userHandle", "==", userHandle));
+    const docs = await getDocs(q);
+    if (docs.docs.length == 0) {
+      console.log("no uid");
+      var organization = {};
+      if (showOrgs) {
+        organization = {
+          orgName,
+          orgHandle,
+          orgCountry,
+          orgWbesite,
+        };
+      }
+      const userDetails = {
+        userName,
+        userHandle,
+        userCountry,
+        organization,
+      }
+
+      await addDoc(collection(db, "users"), userDetails);
+    } else {
+      console.log(docs.docs[0].data());
+    }
+    // navigateTo("/");
   };
 
   //----------------Profiles---------------------
@@ -83,46 +115,46 @@ const Profiles = () => {
     return text;
   };
 
-  return ( 
+  return (
     <div
-        className="container w-100"
-        style={{
-          minWidth: "50vw",
-          maxWidth: "80vw",
-        }}
-      >
-        <div className="row justify-content-md-center">
-          <div className="col-md-auto">
-            <UserProfile
-              updateUserName={updateUserName}
-              updateUserHandle={updateUserHandle}
-              updateCountry={updateCountry}
-              handleUserSubmit={handleUserSubmit}
-              countries={countries}
+      className="container w-100"
+      style={{
+        minWidth: "50vw",
+        maxWidth: "80vw",
+      }}
+    >
+      <div className="row justify-content-md-center">
+        <div className="col-md-auto">
+          <UserProfile
+            updateUserName={updateUserName}
+            updateUserHandle={updateUserHandle}
+            updateCountry={updateCountry}
+            handleUserSubmit={handleUserSubmit}
+            countries={countries}
+          >
+            <Button
+              className=" w-100 mt-2"
+              variant="contained"
+              onClick={changeOrgDisplay}
             >
-              <Button
-                className=" w-100 mt-2"
-                variant="contained"
-                onClick={changeOrgDisplay}
-              >
-                {getOrgButtonText()}
-              </Button>
-            </UserProfile>
-          </div>
-          <div className="col-md-auto">
-            {showOrgs && (
-              <OrganizationProfile
-                updateOrgName={updateOrgName}
-                updateOrgHandle={updateOrgHandle}
-                updateOrgCountry={updateOrgCountry}
-                updateOrgWebsite={updateOrgWebsite}
-                countries={countries}
-              />
-            )}
-          </div>
+              {getOrgButtonText()}
+            </Button>
+          </UserProfile>
+        </div>
+        <div className="col-md-auto">
+          {showOrgs && (
+            <OrganizationProfile
+              updateOrgName={updateOrgName}
+              updateOrgHandle={updateOrgHandle}
+              updateOrgCountry={updateOrgCountry}
+              updateOrgWebsite={updateOrgWebsite}
+              countries={countries}
+            />
+          )}
         </div>
       </div>
-   );
-}
- 
+    </div>
+  );
+};
+
 export default Profiles;

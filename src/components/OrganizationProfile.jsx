@@ -14,7 +14,7 @@ class OrganizationProfile extends Component {
     return (
       <Card
         style={{
-          minWidth: "400px",
+          minWidth: "350px",
           maxWidth: "32vw",
         }}
       >

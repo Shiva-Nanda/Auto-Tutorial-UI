@@ -12,11 +12,14 @@ import {
 } from "@mui/material";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { logout, testing } from "../contexts/newAuth";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../firebase";
 
-const NavBar = () => {
+export default function NavBar(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  const { currentUser, logout } = useAuth()
+  const [user, loading, error] = useAuthState(auth);
   //   const [error, setError] = useState("")
   const navigateTo = useNavigate;
 
@@ -41,16 +44,15 @@ const NavBar = () => {
     handleCloseMenu();
     try {
       await logout();
-      navigateTo("/");
-    } catch {
-      console.log("Error in loging out");
+    } catch(err) {
+      console.log("Error in loging out " + err);
     }
   }
   return (
     <div>
       <AppBar
         position="static"
-        style={{ padding: "10px", backgroundColor: "#75E6DA" }}
+        style={{ minWidth: '100%', padding: "10px", backgroundColor: "#75E6DA" }}
       >
         <Grid container>
           <Grid item xs={3} sx={{ display: "flex", alignItems: "center" }}>
@@ -60,7 +62,7 @@ const NavBar = () => {
             </Typography>
           </Grid>
           <Grid item xs={8.5}></Grid>
-          {currentUser && (
+          {user && (
             <Grid item xs={0.5}>
               <IconButton
                 style={{ padding: "0" }}
@@ -81,7 +83,7 @@ const NavBar = () => {
                   "aria-labelledby": "avatar-button",
                 }}
               >
-                <MenuItem onClick={handleCloseMenu}>Profile</MenuItem>
+                <MenuItem onClick={testing}>Profile</MenuItem>
                 <MenuItem onClick={handleCloseMenu}>My account</MenuItem>
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
               </Menu>
@@ -93,4 +95,3 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
