@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect, useState } from "react";
 import { useTheme } from "@emotion/react";
 import {
   AppBar,
@@ -14,13 +14,30 @@ import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { logout, testing } from "../contexts/newAuth";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { getUserDetails } from "../utils/firebaseUtils";
+
 
 export default function NavBar(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const [user, loading, error] = useAuthState(auth);
+  const [uesrDetails, setUserDetails] = useState({});
+  const [userId, setUserId] = useState("");
+  const userCollectionRef = collection(db, "users");
   //   const [error, setError] = useState("")
+
+  useEffect(() => {
+    const getDetails = async () => {
+      const data = await getUserDetails(user.uid);
+      setUserDetails(data.data);
+      setUserId(data.id);
+      console.log(uesrDetails);
+    }
+    getDetails()
+  }, []);
+
   const navigateTo = useNavigate;
 
   const handleMenuClick = (event) => {
@@ -72,7 +89,7 @@ export default function NavBar(props) {
                 aria-expanded={open ? "true" : undefined}
                 onClick={handleMenuClick}
               >
-                <Avatar sx={{ bgcolor: "#FD841F" }}>SN</Avatar>
+                <Avatar sx={{ bgcolor: "#FD841F" }}>{uesrDetails.avatarName}</Avatar>
               </IconButton>
               <Menu
                 id="profile-menu"

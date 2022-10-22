@@ -6,6 +6,8 @@ import { Route, Navigate } from "react-router-dom";
 import Profiles from "./Profiles";
 import { signUp } from "../contexts/newAuth";
 import SmIcons from "./SmIcons";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../firebase";
 export default function Signup() {
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -13,14 +15,13 @@ export default function Signup() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigateTo = useNavigate();
-  const [user, setUser] = useState("");
+  const [user, authLoading, authError] = useAuthState(auth);
 
-  // useEffect(() => {
-  //   console.log(currentUser)
-  //   if (currentUser) {
-  //     navigateTo("/test");
-  //   }
-  // });
+  useEffect(() => {
+    if (user) {
+      navigateTo("/test");
+    }
+  });
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -33,7 +34,7 @@ export default function Signup() {
       setError("");
       setLoading(true);
       await signUp(emailRef.current.value, passwordRef.current.value);
-      navigateTo("/test");
+      navigateTo("/profileCreation");
     } catch (err) {
       switch (err.code) {
         case "auth/email-already-in-use":

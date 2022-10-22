@@ -1,17 +1,11 @@
 import { Button } from "@mui/material";
 import React, { Component, useState } from "react";
-import OrganizationProfile from "./OrganizationProfile";
-import UserProfile from "./UserProfile";
+import OrganizationProfile from "./OrganizationProfileCreation";
+import UserProfile from "./UserProfileCreation";
 import { Link, useNavigate } from "react-router-dom";
-import { db } from "../firebase";
-import {
-  getFirestore,
-  query,
-  getDocs,
-  collection,
-  where,
-  addDoc,
-} from "firebase/firestore";
+import { auth, db } from "../firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { addOrUpdateDocs } from "../utils/firebaseUtils";
 
 const Profiles = () => {
   const [userName, setuserName] = useState("");
@@ -23,6 +17,7 @@ const Profiles = () => {
   const [orgCountry, setOrgCountry] = useState("India");
   const [showOrgs, setShowOrgs] = useState(false);
   const countries = ["India", "USA", "UK"];
+  const [user, loading, error] = useAuthState(auth);
   const navigateTo = useNavigate();
 
   // -------------Organization-------------------
@@ -54,46 +49,27 @@ const Profiles = () => {
   const updateCountry = (event) => {
     setuserCountry(event.target.value);
   };
-
+  
   const handleUserSubmit = async () => {
-    const show = true;
-    if (show) {
-      console.log("User details: ");
-      console.log("userName " + userName);
-      console.log("userHandle " + userHandle);
-      console.log("Country " + userCountry);
-      if (showOrgs) {
-        console.log("Org Details: ");
-        console.log("Organization Name" + orgName);
-        console.log("Organization Handle" + orgHandle);
-        console.log("Organization Country" + orgCountry);
-        console.log("Organization Website" + orgWbesite);
-      }
+    const uid = user.uid;
+    var organization = {};
+    if (showOrgs) {
+      organization = {
+        orgName,
+        orgHandle,
+        orgCountry,
+        orgWbesite,
+      };
     }
-    const q = query(collection(db, "users"), where("userHandle", "==", userHandle));
-    const docs = await getDocs(q);
-    if (docs.docs.length == 0) {
-      console.log("no uid");
-      var organization = {};
-      if (showOrgs) {
-        organization = {
-          orgName,
-          orgHandle,
-          orgCountry,
-          orgWbesite,
-        };
-      }
-      const userDetails = {
-        userName,
-        userHandle,
-        userCountry,
-        organization,
-      }
-
-      await addDoc(collection(db, "users"), userDetails);
-    } else {
-      console.log(docs.docs[0].data());
-    }
+    const userDetails = {
+      uid,
+      userName,
+      userHandle,
+      userCountry,
+      organization,
+      avatarName: userName.length >= 1 ? userName[0]: 'U',
+    };
+    addOrUpdateDocs(user.uid, userDetails);
     // navigateTo("/");
   };
 
@@ -126,6 +102,9 @@ const Profiles = () => {
       <div className="row justify-content-md-center">
         <div className="col-md-auto">
           <UserProfile
+            userName={userName}
+            userHandle={userHandle}
+            userCountry={userCountry}
             updateUserName={updateUserName}
             updateUserHandle={updateUserHandle}
             updateCountry={updateCountry}
@@ -144,6 +123,10 @@ const Profiles = () => {
         <div className="col-md-auto">
           {showOrgs && (
             <OrganizationProfile
+              orgName={orgName}
+              orgHandle={orgHandle}
+              orgWbesite={orgWbesite}
+              orgCountry={orgCountry}
               updateOrgName={updateOrgName}
               updateOrgHandle={updateOrgHandle}
               updateOrgCountry={updateOrgCountry}
