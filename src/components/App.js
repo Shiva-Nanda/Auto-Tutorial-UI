@@ -20,6 +20,9 @@ import TempComp from "./tempComp";
 import ProfileMenu from "./profileMenu";
 import ProfileCard from './profileCard';
 import UserProfile from './userProfile';
+import OrgProfileMenu from './orgProfileMenu';
+import OrgProfileCard from './orgProfileCard';
+import OrgProfile from './orgProfile';
 
 function App() {
   return (
@@ -36,7 +39,9 @@ function App() {
             <Router>
               <AuthProvider>
                 <Routes>
-                  <Route path="/debug" element={<UserProfile />} />
+                  {/* <Route path="/debug" element={<OrgProfile />} /> */}
+                  <Route path="/organizationProfile" element={<OrgProfile />} />
+                  <Route path="/userProfile" element={<UserProfile />} />
                   <Route path="/profileCreation" element={<Profiles />} />
                   <Route
                     exact

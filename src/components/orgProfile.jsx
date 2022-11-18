@@ -2,19 +2,19 @@ import { Grid } from '@mui/material';
 import React from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../firebase';
-import ProfileCard from './profileCard';
-import ProfileMenu from './profileMenu';
+import OrgProfileCard from './orgProfileCard';
+import OrgProfileMenu from './orgProfileMenu';
 
-const UserProfile = (props) => {
+const OrgProfile = (props) => {
     const [user, loading, error] = useAuthState(auth);
     return ( 
         <React.Fragment>
             <Grid container spacing={2} style={{minWidth: '80vw'}}>
                 <Grid item xs={3}>
-                    <ProfileMenu />
+                    <OrgProfileMenu />
                 </Grid>
                 <Grid item xs={8}>
-                    <ProfileCard 
+                    <OrgProfileCard 
                         uid={user.uid}
                     />
                 </Grid>
@@ -23,4 +23,4 @@ const UserProfile = (props) => {
      );
 }
  
-export default UserProfile;
+export default OrgProfile;

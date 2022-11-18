@@ -11,27 +11,76 @@ import React, { useState } from "react";
 import {
   FacebookRounded, GitHub, LinkedIn,
 } from "@mui/icons-material";
+import { addOrUpdateDocs, getUserDetails } from "../utils/firebaseUtils";
+import { useEffect } from "react";
 
 const ProfileCard = (props) => {
-  const [uesrName, setUserName] = useState("Name");
+  const uid = props.uid;
+
+  const [userName, setUserName] = useState("Name");
   const [userCountry, setUserCountry] = useState("India");
   const [description, setDesc] = useState("");
   const [website, setWebsite] = useState("");
+  const [facebook, setFacebook] = useState("www.facebook.com/user");
+  const [linkedin, setLinkedin] = useState("www.linkedin.com/user");
+  const [github, setGithub] = useState("www.github.com/user");
 
   const countries = ["India", "USA", "UK"];
 
+  useEffect(() => {
+    const loadData = async () => {
+      const {data: details} = await getUserDetails(uid);
+      setUserName(details.userName);
+      setUserCountry(details.userCountry);
+      setDesc(details.description);
+      setWebsite(details.website);
+      setFacebook(details.facebook);
+      setLinkedin(details.linkedin);
+      setGithub(details.github);
+    }
+    loadData();
+  }, [])
+
+  const updateDetails = async () => {
+    const {id, data: details} = await getUserDetails(uid);
+    if (details.userName !== userName) details.userName = userName;
+    if (details.userCountry !== userCountry) details.userCountry = userCountry;
+    if (details.description !== description) details.description = description;
+    if (details.website !== website) details.website = website;
+    if (details.facebook !== facebook) details.facebook = facebook;
+    if (details.linkedin !== linkedin) details.linkedin = linkedin;
+    if (details.github !== github) details.github = github;
+    addOrUpdateDocs(uid, details);
+  }
+
   const updateName = (event) => {
     setUserName(event.target.value);
+    updateDetails();
   };
   const updateCountry = (event) => {
     setUserCountry(event.target.value);
+    updateDetails();
   };
   const updateWebsite = (event) => {
     setWebsite(event.target.value);
+    updateDetails();
   };
   const updateDesc = (event) => {
     setDesc(event.target.value);
+    updateDetails();
   };
+  const updateFacebook = (event) => {
+    setFacebook(event.target.value);
+    updateDetails();
+  }
+  const updateLinkedin = (event) => {
+    setLinkedin(event.target.value);
+    updateDetails();
+  }
+  const updateGithub = (event) => {
+    setGithub(event.target.value);
+    updateDetails();
+  }
   return (
     <React.Fragment>
       <Typography style={{ padding: "4px" }} variant="h4">
@@ -54,7 +103,7 @@ const ProfileCard = (props) => {
                     label="Name"
                     variant="outlined"
                     onChange={updateName}
-                    value={uesrName}
+                    value={userName}
                   />
                 </Grid>
                 <Grid item xs={0.5} />
@@ -112,7 +161,8 @@ const ProfileCard = (props) => {
                 className="w-100"
                 label="Facebook"
                 variant="outlined"
-                value="www.facebook.com/user"
+                onChange={updateFacebook}
+                value={facebook}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -128,7 +178,8 @@ const ProfileCard = (props) => {
                 className="w-100"
                 label="LinkedIn"
                 variant="outlined"
-                value="www.linkedin.com/user"
+                onChange={updateLinkedin}
+                value={linkedin}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -144,7 +195,8 @@ const ProfileCard = (props) => {
                 className="w-100"
                 label="Github"
                 variant="outlined"
-                value="www.github.com/user"
+                onChange={updateGithub}
+                value={github}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
