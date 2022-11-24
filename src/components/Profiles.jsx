@@ -1,11 +1,11 @@
 import { Button } from "@mui/material";
 import React, { Component, useState } from "react";
-import OrganizationProfile from "./OrganizationProfileCreation";
+import OrganizationProfileCreation from "./OrganizationProfileCreation";
 import UserProfile from "./UserProfileCreation";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, db } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { addOrUpdateDocs } from "../utils/firebaseUtils";
+import { addOrUpdateOrgDocs, addOrUpdateUserDocs } from "../utils/firebaseUtils";
 
 const Profiles = () => {
   const [userName, setuserName] = useState("");
@@ -13,7 +13,7 @@ const Profiles = () => {
   const [userCountry, setuserCountry] = useState("India");
   const [orgName, setOrgName] = useState("");
   const [orgHandle, setOrgHandle] = useState("");
-  const [orgWbesite, setOrgWebsite] = useState("");
+  const [orgWebsite, setOrgWebsite] = useState("");
   const [orgCountry, setOrgCountry] = useState("India");
   const [showOrgs, setShowOrgs] = useState(false);
   const countries = ["India", "USA", "UK"];
@@ -52,13 +52,14 @@ const Profiles = () => {
   
   const handleUserSubmit = async () => {
     const uid = user.uid;
-    var organization = {};
+    var orgDetails = {};
     if (showOrgs) {
-      organization = {
+      orgDetails = {
+        uid,
         orgName,
         orgHandle,
         orgCountry,
-        orgWbesite,
+        orgWebsite,
       };
     }
     const userDetails = {
@@ -66,11 +67,11 @@ const Profiles = () => {
       userName,
       userHandle,
       userCountry,
-      organization,
       avatarName: userName.length >= 1 ? userName[0]: 'U',
     };
-    addOrUpdateDocs(user.uid, userDetails);
-    // navigateTo("/");
+    addOrUpdateUserDocs(user.uid, userDetails);
+    addOrUpdateOrgDocs(user.uid, orgDetails);
+    navigateTo("/");
   };
 
   //----------------Profiles---------------------
@@ -122,10 +123,10 @@ const Profiles = () => {
         </div>
         <div className="col-md-auto">
           {showOrgs && (
-            <OrganizationProfile
+            <OrganizationProfileCreation
               orgName={orgName}
               orgHandle={orgHandle}
-              orgWbesite={orgWbesite}
+              orgWebsite={orgWebsite}
               orgCountry={orgCountry}
               updateOrgName={updateOrgName}
               updateOrgHandle={updateOrgHandle}

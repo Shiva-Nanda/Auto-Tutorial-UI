@@ -1,6 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
 import { From, Button, Card, Form, Alert } from "react-bootstrap";
-import { useAuth,currentUser } from "../contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { Route, Navigate } from "react-router-dom";
 import Profiles from "./Profiles";
@@ -19,14 +18,14 @@ export default function Signup() {
 
   useEffect(() => {
     if (user) {
-      navigateTo("/test");
+      navigateTo("/");
     }
   });
 
   async function handleSubmit(e) {
     e.preventDefault();
-    console.log(emailRef.current.value);
-    console.log(passwordConfirmRef.current.value);
+    // console.log(emailRef.current.value);
+    // console.log(passwordConfirmRef.current.value);
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
       return setError("Passwords do not match");
     }

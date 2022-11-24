@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Card } from "react-bootstrap";
 import { TextField, MenuItem, Button } from "@mui/material";
 
-class OrganizationProfile extends Component {
+class OrganizationProfileCreation extends Component {
   render() {
     const {
       updateOrgName,
@@ -75,4 +75,4 @@ class OrganizationProfile extends Component {
   }
 }
 
-export default OrganizationProfile;
+export default OrganizationProfileCreation;

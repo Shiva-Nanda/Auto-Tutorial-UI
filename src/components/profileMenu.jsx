@@ -1,25 +1,28 @@
 import { Button, Card, CardContent, Grid } from "@mui/material";
 import React, { Component } from "react";
-import { AccountCircle, Settings, Notifications, People } from "@mui/icons-material";
+import { AccountCircle, Notifications, People } from "@mui/icons-material";
 import { IconButton } from "material-ui";
+import { useNavigate } from "react-router-dom";
 
 const ProfileMenu = (props) => {
+  const navigateTo = useNavigate();
     const itemStyle = {
         color: 'black',
         textTransform: "none",
+    }
+    const handleProfileClick = () => {
+      navigateTo('/userProfile');
+    }
+    const handleOrgProfileClick = () => {
+      navigateTo('/organizationProfile');
     }
   return (
     <Card sx={{ flexGrow: 1 }}>
       <CardContent>
         <Grid container spacing={1} direction="column">
           <Grid item xs={12}>
-            <Button startIcon={<AccountCircle />} style={itemStyle}>
+            <Button onClick={handleProfileClick} startIcon={<AccountCircle />} style={itemStyle}>
               Profile
-            </Button>
-          </Grid>
-          <Grid item xs={12}>
-            <Button startIcon={<Settings />} style={itemStyle}>
-              Settings
             </Button>
           </Grid>
           <Grid item xs={12}>
@@ -28,7 +31,7 @@ const ProfileMenu = (props) => {
             </Button>
           </Grid>
           <Grid item xs={12}>
-            <Button startIcon={<People />} style={itemStyle}>
+            <Button onClick={handleOrgProfileClick} startIcon={<People />} style={itemStyle}>
               Organizations
             </Button>
           </Grid>

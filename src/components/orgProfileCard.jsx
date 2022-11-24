@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { FacebookRounded, GitHub, LinkedIn } from "@mui/icons-material";
-import { addOrUpdateDocs, getUserDetails } from "../utils/firebaseUtils";
+import { addOrUpdateOrgDocs, addOrUpdateUserDocs, getOrgDetails, getUserDetails } from "../utils/firebaseUtils";
 import { useEffect } from "react";
 
 const OrgProfileCard = (props) => {
@@ -29,26 +29,26 @@ const OrgProfileCard = (props) => {
 
   useEffect(() => {
     const loadData = async () => {
-      const { data: details } = await getUserDetails(uid);
-      setOrgName(stringIfUndefined(details.organization.orgName));
-      setOrgHandle(stringIfUndefined(details.organization.orgHandle));
-      setOrgWebsite(stringIfUndefined(details.organization.orgWebsite));
-      setOrgDescription(stringIfUndefined(details.organization.orgDescription));
+      const { data: details } = await getOrgDetails(uid);
+      setOrgName(stringIfUndefined(details.orgName));
+      setOrgHandle(stringIfUndefined(details.orgHandle));
+      setOrgWebsite(stringIfUndefined(details.orgWebsite));
+      setOrgDescription(stringIfUndefined(details.orgDescription));
     };
     loadData();
   }, []);
 
   const updateDetails = async () => {
-    const { id, data: details } = await getUserDetails(uid);
-    if (details.organization.orgName !== orgName)
-      details.organization.orgName = orgName;
-    if (details.organization.orgHandle !== orgHandle)
-      details.organization.orgHandle = orgHandle;
-    if (details.organization.orgWebsite !== orgWebsite)
-      details.organization.orgWebsite = orgWebsite;
-    if (details.organization.orgDescription !== orgDescription)
-      details.organization.orgDescription = orgDescription;
-    addOrUpdateDocs(uid, details);
+    const { id, data: details } = await getOrgDetails(uid);
+    if (details.orgName !== orgName)
+      details.orgName = orgName;
+    if (details.orgHandle !== orgHandle)
+      details.orgHandle = orgHandle;
+    if (details.orgWebsite !== orgWebsite)
+      details.orgWebsite = orgWebsite;
+    if (details.orgDescription !== orgDescription)
+      details.orgDescription = orgDescription;
+    addOrUpdateOrgDocs(uid, details);
   };
 
   const updateOrgName = (event) => {

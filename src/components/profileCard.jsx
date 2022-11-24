@@ -11,7 +11,7 @@ import React, { useState } from "react";
 import {
   FacebookRounded, GitHub, LinkedIn,
 } from "@mui/icons-material";
-import { addOrUpdateDocs, getUserDetails } from "../utils/firebaseUtils";
+import { addOrUpdateUserDocs, getUserDetails } from "../utils/firebaseUtils";
 import { useEffect } from "react";
 
 const ProfileCard = (props) => {
@@ -50,7 +50,7 @@ const ProfileCard = (props) => {
     if (details.facebook !== facebook) details.facebook = facebook;
     if (details.linkedin !== linkedin) details.linkedin = linkedin;
     if (details.github !== github) details.github = github;
-    addOrUpdateDocs(uid, details);
+    addOrUpdateUserDocs(uid, details);
   }
 
   const updateName = (event) => {

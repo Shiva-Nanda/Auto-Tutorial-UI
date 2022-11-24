@@ -24,6 +24,7 @@ export default function NavBar(props) {
   const open = Boolean(anchorEl);
   const [user, loading, error] = useAuthState(auth);
   const [uesrDetails, setUserDetails] = useState({});
+  const navigateTo = useNavigate();
   const [userId, setUserId] = useState("");
   const userCollectionRef = collection(db, "users");
   //   const [error, setError] = useState("")
@@ -36,9 +37,8 @@ export default function NavBar(props) {
       console.log(uesrDetails);
     }
     getDetails()
-  }, []);
+  }, [user]);
 
-  const navigateTo = useNavigate;
 
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -61,6 +61,22 @@ export default function NavBar(props) {
     handleCloseMenu();
     try {
       await logout();
+    } catch(err) {
+      console.log("Error in loging out " + err);
+    }
+  }
+  async function handleAccount() {
+    handleCloseMenu();
+    try {
+      navigateTo('/');
+    } catch(err) {
+      console.log("Error in loging out " + err);
+    }
+  }
+  async function handleProfile() {
+    handleCloseMenu();
+    try {
+      navigateTo('/');
     } catch(err) {
       console.log("Error in loging out " + err);
     }
@@ -100,8 +116,8 @@ export default function NavBar(props) {
                   "aria-labelledby": "avatar-button",
                 }}
               >
-                <MenuItem onClick={testing}>Profile</MenuItem>
-                <MenuItem onClick={handleCloseMenu}>My account</MenuItem>
+                <MenuItem onClick={handleProfile}>Profile</MenuItem>
+                <MenuItem onClick={handleAccount}>My account</MenuItem>
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
               </Menu>
             </Grid>
