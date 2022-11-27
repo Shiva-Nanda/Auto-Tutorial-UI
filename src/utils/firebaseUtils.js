@@ -1,5 +1,26 @@
-import { addDoc, collection, doc, getDocs, query, updateDoc, where } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import { db } from "../firebase";
+
+const getOrgOfUser = async (uid) => {
+  const orgCollectionRef = await collection(db, "organizations");
+  const q = query(orgCollectionRef);
+  const data = await getDocs(q);
+  console.log("inside", data.docs);
+  for (var i = 0; i < data.docs.length; i++) {
+    if (data.docs[i].data().users.includes(uid)) {
+      console.log("got", data.docs[i].data());
+      return data.docs[i];
+    }
+  }
+};
 
 const getUserDetails = async (uid) => {
   const userCollectionRef = await collection(db, "users");
@@ -9,10 +30,9 @@ const getUserDetails = async (uid) => {
 };
 
 const getOrgDetails = async (uid) => {
-  const userCollectionRef = await collection(db, "organizations");
-  const q = query(userCollectionRef, where("uid", "==", uid));
-  const data = await getDocs(q);
-  return { data: data.docs[0].data(), id: data.docs[0].id };
+  const data = await getOrgOfUser(uid);
+  console.log(data);
+  return { data: data.data(), id: data.id };
 };
 
 const addOrUpdateUserDocs = async (uid, userDetails) => {
@@ -27,18 +47,58 @@ const addOrUpdateUserDocs = async (uid, userDetails) => {
   }
 };
 
-const addOrUpdateOrgDocs = async (uid, userDetails) => {
-  const userCollectionRef = collection(db, "organizations");
-  const q = query(userCollectionRef, where("uid", "==", uid));
-  const docs = await getDocs(q);
-  if (docs.docs.length === 0) {
-    //   console.log("no uid");
-    await addDoc(collection(db, "organizations"), userDetails);
+const addOrUpdateOrgDocs = async (uid, orgDetails) => {
+  const docs = await getOrgOfUser(uid);
+  console.log("docs", docs);
+  if (docs === undefined) {
+    console.log("no uid");
+    await addDoc(collection(db, "organizations"), orgDetails);
   } else {
-    const userDoc = doc(db, "organizations", docs.docs[0].id);
-    //   console.log(userDoc);
-    await updateDoc(userDoc, { ...userDetails });
+    const orgDoc = doc(db, "organizations", docs.id);
+    //   console.log(orgDoc);
+    await updateDoc(orgDoc, { ...orgDetails });
   }
 };
 
-export { getUserDetails, addOrUpdateUserDocs, getOrgDetails, addOrUpdateOrgDocs };
+const getTuts = async () => {
+  const orgCollectionRef = collection(db, "organizations");
+  const q = query(orgCollectionRef);
+  const data = await getDocs(q);
+  const tuts = [];
+  data.docs.forEach((org) => {
+    org.data().tuts.forEach((tutorial) => {
+      // console.log(tutorial);
+      tuts.push({ ...tutorial, organization: org.data().orgName });
+    });
+  });
+  return tuts;
+};
+
+const addOrUpdateTuts = async (uid, tutorial) => {
+  console.log(uid);
+  const docs = await getOrgOfUser(uid);
+  // console.log(docs.data(), docs.id);
+  const orgDetails = docs.data();
+  const orgDoc = doc(db, "organizations", docs.id);
+  if (orgDetails.tuts === undefined) orgDetails["tuts"] = [tutorial];
+  else {
+    var update = false;
+    for (var i = 0; i < orgDetails.tuts.length; i++) {
+      if (orgDetails.tuts[i].Title === tutorial.Title) {
+        orgDetails.tuts[i] = tutorial;
+        update = true;
+      }
+    }
+    if (update === false) orgDetails.tuts.push(tutorial);
+  }
+  await updateDoc(orgDoc, { ...orgDetails });
+};
+
+export {
+  getUserDetails,
+  addOrUpdateUserDocs,
+  getOrgDetails,
+  addOrUpdateOrgDocs,
+  getTuts,
+  addOrUpdateTuts
+};

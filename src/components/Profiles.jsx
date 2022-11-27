@@ -55,12 +55,13 @@ const Profiles = () => {
     var orgDetails = {};
     if (showOrgs) {
       orgDetails = {
-        uid,
+        users: [uid],
         orgName,
         orgHandle,
         orgCountry,
         orgWebsite,
       };
+      addOrUpdateOrgDocs(user.uid, orgDetails);
     }
     const userDetails = {
       uid,
@@ -70,7 +71,6 @@ const Profiles = () => {
       avatarName: userName.length >= 1 ? userName[0]: 'U',
     };
     addOrUpdateUserDocs(user.uid, userDetails);
-    addOrUpdateOrgDocs(user.uid, orgDetails);
     navigateTo("/");
   };
 
