@@ -8,6 +8,8 @@ import { logout } from "../contexts/newAuth";
 import { Grid, Item, TextField } from "@mui/material";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { getUserDetails } from "../utils/firebaseUtils";
+import SideBar from "./Homepage/SideBar/sidelist";
+
 
 export default function Dashboard() {
   const [error, setError] = useState("");
@@ -30,26 +32,14 @@ export default function Dashboard() {
   }, []);
   return (
     <>
-      <Card>
-        <Card.Body>
-          <h2 className="text-center mb-4"> Profile</h2>
-          {error && <Alert variant="danger">{error}</Alert>}
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              Email: {user.email}
+     <React.Fragment>
+            <Grid container alignContent="left" spacing={10} style={{minWidth: '90vw'}}>
+                <Grid item xs={2}>
+                    <SideBar/>
+                </Grid>
+                
             </Grid>
-            <Grid item xs={12}>
-              UserName: {uesrDetails.userName}
-            </Grid>
-            <Grid item xs={12}>
-              userHandle: {uesrDetails.userHandle}
-            </Grid>
-            <Grid item xs={12}>
-              UserCountry: {uesrDetails.userCountry}
-            </Grid>
-          </Grid>
-        </Card.Body>
-      </Card>
+        </React.Fragment>
     </>
   );
 }

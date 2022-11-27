@@ -19,10 +19,13 @@ import NavBar from "./components/NavBar";
 import TempComp from "./components/tempComp";
 import ProfileMenu from "./components/profileMenu";
 import ProfileCard from "./components/profileCard";
-import UserProfile from "./components/userProfile";
 import OrgProfileMenu from "./components/orgProfileMenu";
 import OrgProfileCard from "./components/orgProfileCard";
 import OrgProfile from "./components/orgProfile";
+import Createpost from './components/Post/Createpost';
+import Editor from './components/Post/Editor';
+import UserProfileCard from "./components/UserProfile";
+
 
 function App() {
   return (
@@ -40,7 +43,7 @@ function App() {
               <Routes>
                 {/* <Route path="/debug" element={<OrgProfile />} /> */}
                 <Route path="/organizationProfile" element={<OrgProfile />} />
-                <Route path="/userProfile" element={<UserProfile />} />
+                <Route path="/userProfile" element={ <UserProfileCard/>}/>
                 <Route path="/profileCreation" element={<Profiles />} />
                 <Route
                   exact
@@ -54,6 +57,8 @@ function App() {
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/" element={<Login />} />
+                <Route path="/createpost" element={<Createpost />} />
+                  <Route path="/edit" element={<Editor />} />
               </Routes>
             </AuthProvider>
           </div>

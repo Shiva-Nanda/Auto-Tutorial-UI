@@ -5,7 +5,7 @@ import { auth } from '../firebase';
 import ProfileCard from './profileCard';
 import ProfileMenu from './profileMenu';
 
-const UserProfile = (props) => {
+const UserProfileCard = (props) => {
     const [user, loading, error] = useAuthState(auth);
     return ( 
         <React.Fragment>
@@ -23,4 +23,4 @@ const UserProfile = (props) => {
      );
 }
  
-export default UserProfile;
+export default UserProfileCard;
