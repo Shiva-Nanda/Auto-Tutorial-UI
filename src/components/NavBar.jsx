@@ -68,7 +68,7 @@ export default function NavBar(props) {
   async function handleAccount() {
     handleCloseMenu();
     try {
-      navigateTo('/');
+      navigateTo('/userProfile');
     } catch(err) {
       console.log("Error in loging out " + err);
     }
@@ -76,7 +76,16 @@ export default function NavBar(props) {
   async function handleProfile() {
     handleCloseMenu();
     try {
-      navigateTo('/');
+      navigateTo('/userProfile');
+    } catch(err) {
+      console.log("Error in loging out " + err);
+    }
+  }
+
+  async function handleLogin() {
+    handleCloseMenu();
+    try {
+      navigateTo('/login');
     } catch(err) {
       console.log("Error in loging out " + err);
     }
@@ -116,8 +125,8 @@ export default function NavBar(props) {
                   "aria-labelledby": "avatar-button",
                 }}
               >
+                <MenuItem onClick={handleLogin}>Login</MenuItem>
                 <MenuItem onClick={handleProfile}>Profile</MenuItem>
-                <MenuItem onClick={handleAccount}>My account</MenuItem>
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
               </Menu>
             </Grid>

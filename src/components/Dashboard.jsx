@@ -9,6 +9,7 @@ import { Grid, Item, TextField } from "@mui/material";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { getUserDetails } from "../utils/firebaseUtils";
 import SideBar from "./Homepage/SideBar/sidelist";
+import Editor from "./Post/Editor";
 
 
 export default function Dashboard() {
@@ -37,7 +38,6 @@ export default function Dashboard() {
                 <Grid item xs={2}>
                     <SideBar/>
                 </Grid>
-                
             </Grid>
         </React.Fragment>
     </>

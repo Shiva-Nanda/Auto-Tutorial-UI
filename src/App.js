@@ -25,6 +25,7 @@ import OrgProfile from "./components/orgProfile";
 import Createpost from './components/Post/Createpost';
 import Editor from './components/Post/Editor';
 import UserProfileCard from "./components/UserProfile";
+import DisplayTutorial from "./components/displayTutorial/DisplayTutorial";
 
 
 function App() {
@@ -57,8 +58,9 @@ function App() {
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/" element={<Login />} />
-                <Route path="/createpost" element={<Createpost />} />
-                  <Route path="/edit" element={<Editor />} />
+                <Route path="/createpost" element={<Editor />} />
+                <Route path="/edit" element={<Editor />} />
+                <Route path="/displaytutorial" element={<DisplayTutorial />} />
               </Routes>
             </AuthProvider>
           </div>

@@ -1,30 +1,115 @@
-import React, { useState }  from 'react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import React, { useState } from "react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
+import { Grid, Button, CardContent, Typography, Card, TextField } from "@mui/material";
+import { addDoc, collection, Timestamp } from "firebase/firestore";
+import { db } from "../../firebase";
+import SideBar from "../Homepage/SideBar/sidelist";
 
+const Editor = (props) => {
+    const [description, setDescription] = useState("");
+    const [addedData, showData] = useState(0);
+    const createdby = "Maahi";
+    const [title, setTitleby] = useState("");
+    const [imgurl, setImgurl] = useState("");
+    const [tags, setTags] = useState("Enter Tags");
+    const [createddat, setCreateddat] = useState(
+        Timestamp.now().toDate().toString()
+    );
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        await addDoc(collection(db, "Tutorials"), {
+            title,
+            createdby,
+            createddat,
+            description,
+            imgurl,
+            tags,
+        })
+            .then(() => {
+                alert("Inserted data!!");
+            })
+            .catch((err) => {
+                alert(err.message);
+            });
 
-function Editor() {
-    const [addData, setVal] = useState("");
-    const [addedData, showData] = useState(0)
+    };
     const handleChange = (e, editor) => {
         const data = editor.getData();
-        setVal(data);
-    }
-  return (
-      <div style={{ textAlign: 'center' }}>
-          <div style={{ width: '900px', display: 'inline-block', textAlign: 'left' }}>
-              <div style={{ width: '700px', display: 'inline-block', textAlign: 'right', marginBottom: '5px' }}>
-                  <button style={{ backgroundColour: 'black', color: 'white' }} onClick={() => showData(!addedData)}>
-                      {addedData ? 'Hide Data': "showData"}
-                  </button>
-          </div>
-                <CKEditor editor={ClassicEditor} data={addData} onChange={handleChange} />
-            <div>
-            {addedData? addData : ''}
-        </div>   
-        </div>
-    </div>
-  )
-}
+        setDescription(data);
+        
+    };
+    return (
+        <React.Fragment>
+            <Card
+                sx={{
+                    width: {
+                        sx: 5.0, // 100%
+                        sm: 1000,
+                        md: 1000,
+                    },
+                }}
+            >
+                <Typography align="center" style={{ padding: "4px" }} variant="h3">
+                    Create a New Tutorial
+                </Typography>
+                <CardContent>
+                    <Grid container spacing={1} direction="column">
+                        <Grid item mt={6} xs={12}>
+                            <TextField
+                                required
+                                id="title"
+                                className="w-100"
+                                label="Title"
+                                variant="outlined"
+                                onChange={(e) => {
+                                    setTitleby(e.target.value);
+                                }}
+                            />
+                        </Grid>
+                        <Grid item mt={6} xs={12}>
+                            <Typography align="center" style={{ padding: "4px" }} variant="h5">
+                                Description
+                            </Typography>
+                            <CKEditor
+                                editor={ClassicEditor}
+                                data={description}
+                                onChange={handleChange}
+                            />
+                        </Grid>
+                        <Grid item mt={6} xs={12}>
+                            <TextField
+                                id="imageurl"
+                                className="w-100"
+                                label="Image URL"
+                                variant="outlined"
+                                onChange={(e) => {
+                                    setImgurl(e.target.value);
+                                }}
+                            />
+                        </Grid>
+                        <Grid item mt={6} xs={12} style={{ padding: "4px" }}>
+                            <TextField
+                                id="tags"
+                                className="w-100"
+                                label="Tags"
+                                variant="outlined"
+                                onChange={(e) => {
+                                    setTags(e.target.value);
+                                }}
+                            />
+                        </Grid>
+                        <Grid item xs={12} style={{ paddingBottom: "10px" }}>
+                            <Button size="medium" variant="contained" onClick={handleSubmit}>
+                                Submit
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </CardContent>
+            </Card>
+            </React.Fragment>
+
+    );
+};
 
 export default Editor;
