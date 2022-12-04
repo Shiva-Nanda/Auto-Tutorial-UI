@@ -34,7 +34,7 @@ export default function NavBar(props) {
       const data = await getUserDetails(user.uid);
       setUserDetails(data.data);
       setUserId(data.id);
-      console.log(uesrDetails);
+      //console.log(uesrDetails);
     }
     getDetails()
   }, [user]);

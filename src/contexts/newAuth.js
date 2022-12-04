@@ -18,11 +18,12 @@ import {
 } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import React, { useContext, useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 
 const AuthContext = React.createContext();
 
 export function useAuth() {
-  return useContext(AuthContext)
+  return useContext(AuthContext);
 }
 
 const googleProvider = new GoogleAuthProvider();
@@ -64,6 +65,7 @@ const signUp = async (email, password) => {
 
 const logout = async () => {
   await signOut(auth);
+  Navigate("/login")
 };
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
