@@ -16,7 +16,7 @@ const SmIcons = (props) => {
   };
   async function handleGoogleLogIn() {
     await signInWithGoogle();
-    navigateTo("/");
+    navigateTo("/profileCreation");
   };
   return (
     <Grid container>

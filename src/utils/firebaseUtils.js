@@ -26,6 +26,7 @@ const getUserDetails = async (uid) => {
   const userCollectionRef = await collection(db, "users");
   const q = query(userCollectionRef, where("uid", "==", uid));
   const data = await getDocs(q);
+  if (data.docs.length === 0) return undefined;
   return { data: data.docs[0].data(), id: data.docs[0].id };
 };
 

@@ -35,7 +35,7 @@ export default function Dashboard() {
     <>
      <React.Fragment>
             <Grid container alignContent="left" spacing={10} style={{minWidth: '90vw'}}>
-                <Grid item xs={2}>
+                <Grid item xs={2} style={{minWidth: "300px"}}>
                     <SideBar/>
                 </Grid>
             </Grid>

@@ -1,26 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import { Grid, Button, CardContent, Typography, Card, TextField } from "@mui/material";
 import { addDoc, collection, Timestamp } from "firebase/firestore";
-import { db } from "../../firebase";
+import { auth, db } from "../../firebase";
 import SideBar from "../Homepage/SideBar/sidelist";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { getOrgDetails, getUserDetails } from "../../utils/firebaseUtils";
 
 const Editor = (props) => {
     const [description, setDescription] = useState("");
     const [addedData, showData] = useState(0);
-    const createdby = "Maahi";
+    const [createdby, setCreatedBy] = useState("");
     const [title, setTitleby] = useState("");
     const [imgurl, setImgurl] = useState("");
     const [tags, setTags] = useState("Enter Tags");
+    const [orgName, setOrgName] = useState("");
+    const [user, authLoading, authError] = useAuthState(auth);
     const [createddat, setCreateddat] = useState(
         Timestamp.now().toDate().toString()
     );
+    useEffect(() => {
+      const loadDetails = async () => {
+        const details = await getUserDetails(user.uid);
+        const orgDetails = await getOrgDetails(user.uid);
+        setCreatedBy(details.data.userName);
+        setOrgName(orgDetails.data.orgName);
+      }
+      loadDetails();
+    }, [])
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
         await addDoc(collection(db, "Tutorials"), {
             title,
+            uid: user.uid,
             createdby,
+            orgName,
             createddat,
             description,
             imgurl,

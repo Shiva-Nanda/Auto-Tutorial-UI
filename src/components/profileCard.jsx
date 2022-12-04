@@ -1,4 +1,5 @@
 import {
+  Button,
   Card,
   CardContent,
   Grid,
@@ -8,9 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-import {
-  FacebookRounded, GitHub, LinkedIn,
-} from "@mui/icons-material";
+import { FacebookRounded, GitHub, LinkedIn } from "@mui/icons-material";
 import { addOrUpdateUserDocs, getUserDetails } from "../utils/firebaseUtils";
 import { useEffect } from "react";
 
@@ -29,7 +28,7 @@ const ProfileCard = (props) => {
 
   useEffect(() => {
     const loadData = async () => {
-      const {data: details} = await getUserDetails(uid);
+      const { data: details } = await getUserDetails(uid);
       setUserName(details.userName);
       setUserCountry(details.userCountry);
       setDesc(details.description);
@@ -37,12 +36,12 @@ const ProfileCard = (props) => {
       setFacebook(details.facebook);
       setLinkedin(details.linkedin);
       setGithub(details.github);
-    }
+    };
     loadData();
-  }, [])
+  }, []);
 
   const updateDetails = async () => {
-    const {id, data: details} = await getUserDetails(uid);
+    const { id, data: details } = await getUserDetails(uid);
     if (details.userName !== userName) details.userName = userName;
     if (details.userCountry !== userCountry) details.userCountry = userCountry;
     if (details.description !== description) details.description = description;
@@ -51,36 +50,36 @@ const ProfileCard = (props) => {
     if (details.linkedin !== linkedin) details.linkedin = linkedin;
     if (details.github !== github) details.github = github;
     addOrUpdateUserDocs(uid, details);
-  }
+  };
 
   const updateName = (event) => {
     setUserName(event.target.value);
-    updateDetails();
+    // updateDetails();
   };
   const updateCountry = (event) => {
     setUserCountry(event.target.value);
-    updateDetails();
+    // updateDetails();
   };
   const updateWebsite = (event) => {
     setWebsite(event.target.value);
-    updateDetails();
+    // updateDetails();
   };
   const updateDesc = (event) => {
     setDesc(event.target.value);
-    updateDetails();
+    // updateDetails();
   };
   const updateFacebook = (event) => {
     setFacebook(event.target.value);
-    updateDetails();
-  }
+    // updateDetails();
+  };
   const updateLinkedin = (event) => {
     setLinkedin(event.target.value);
-    updateDetails();
-  }
+    // updateDetails();
+  };
   const updateGithub = (event) => {
     setGithub(event.target.value);
-    updateDetails();
-  }
+    // updateDetails();
+  };
   return (
     <React.Fragment>
       <Typography style={{ padding: "4px" }} variant="h4">
@@ -206,6 +205,9 @@ const ProfileCard = (props) => {
                 }}
               />
             </Grid>
+            <Button onClick={updateDetails} className="w-100 mt-2" type="submit">
+                Submit
+            </Button>
           </Grid>
         </CardContent>
       </Card>

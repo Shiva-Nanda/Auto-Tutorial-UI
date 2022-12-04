@@ -1,4 +1,5 @@
 import {
+  Button,
   Card,
   CardContent,
   Grid,
@@ -53,19 +54,19 @@ const OrgProfileCard = (props) => {
 
   const updateOrgName = (event) => {
     setOrgName(event.target.value);
-    updateDetails();
+    // updateDetails();
   };
   const updateOrgHandle = (event) => {
     setOrgHandle(event.target.value);
-    updateDetails();
+    // updateDetails();
   };
   const updateOrgWebsite = (event) => {
     setOrgWebsite(event.target.value);
-    updateDetails();
+    // updateDetails();
   };
   const updateOrgDescription = (event) => {
     setOrgDescription(event.target.value);
-    updateDetails();
+    // updateDetails();
   };
   return (
     <React.Fragment>
@@ -121,6 +122,9 @@ const OrgProfileCard = (props) => {
                 onChange={updateOrgDescription}
                 />
             </Grid>
+            <Button onClick={updateDetails} className="w-100 mt-2" type="submit">
+                Submit
+            </Button>
           </Grid>
         </CardContent>
       </Card>

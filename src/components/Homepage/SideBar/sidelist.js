@@ -20,8 +20,12 @@ const tags = [
 
 const SideBar = (props) => {
   const navigate = useNavigate();
-  const navtopost = () => {
+  const navToPost = () => {
     navigate('/createpost');
+  }
+
+  const navToHome = () => {
+    navigate('/');
   }
   const [more, setmore] = useState(false);
   const toggle = () => {
@@ -61,12 +65,12 @@ const SideBar = (props) => {
               
             </Grid>
             <Grid iterm xs={12}>
-              <Button onClick={navtopost} startIcon={ <Create />}>
+              <Button onClick={navToPost} startIcon={ <Create />}>
                   Create Post
                 </Button>
             </Grid>
             <Grid iterm xs={12}>
-              <Button startIcon={ <Home />}>
+              <Button onClick={navToHome} startIcon={ <Home />}>
                   Home
                 </Button>
             </Grid>

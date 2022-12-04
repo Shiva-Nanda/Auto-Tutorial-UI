@@ -61,6 +61,7 @@ export default function NavBar(props) {
     handleCloseMenu();
     try {
       await logout();
+      navigateTo('/login');
     } catch(err) {
       console.log("Error in loging out " + err);
     }
