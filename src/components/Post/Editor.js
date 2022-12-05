@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import React, { useEffect, useState } from "react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import {
@@ -18,11 +17,11 @@ import {
   Timestamp,
   where,
 } from "firebase/firestore";
-import { auth, auth, db } from "../../firebase";
+import { auth, db } from "../../firebase";
 import { useNavigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import SideBar from "../Homepage/SideBar/sidelist";
-import { getUserDetails } from "../../utils/firebaseUtils";
+import { getOrgDetails, getUserDetails } from "../../utils/firebaseUtils";
 
 const Editor = (props) => {
   const navigate = useNavigate();
@@ -33,10 +32,9 @@ const Editor = (props) => {
   const [imgurl, setImgurl] = useState("");
   const [userId, setUserId] = useState("");
   const [userDetails, setUserDetails] = useState([]);
-  const [user, loading, error] = useAuthState(auth);
   const [tags, setTags] = useState("Enter Tags");
-    const [orgName, setOrgName] = useState("");
-    const [user, authLoading, authError] = useAuthState(auth);
+   const [orgName, setOrgName] = useState("");
+  const [user, authLoading, authError] = useAuthState(auth);
   const userRef = collection(db, "users"); 
   
 

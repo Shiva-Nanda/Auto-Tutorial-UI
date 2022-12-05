@@ -22,7 +22,6 @@ import ProfileCard from "./components/profileCard";
 import OrgProfileMenu from "./components/orgProfileMenu";
 import OrgProfileCard from "./components/orgProfileCard";
 import OrgProfile from "./components/orgProfile";
-import Createpost from './components/Post/Createpost';
 import Editor from './components/Post/Editor';
 import UserProfileCard from "./components/UserProfile";
 import DisplayTutorial from "./components/displayTutorial/DisplayTutorial";

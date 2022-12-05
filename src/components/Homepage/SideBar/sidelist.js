@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import { Settings, Notifications, People, Home, Book, Logout, Mic, VideoCall, Tag, AbcOutlined, Light, Shop, HeartBroken, Google, Cases, Twitter, Facebook, GitHub, Instagram, Chat, CheckBox, Close, Person, Create } from "@mui/icons-material";
 import { useState } from "react";
 import { Link, Route, Router, Routes, useNavigate } from "react-router-dom";
-import Createpost from "../../Post/Createpost";
 
 
 const tags = [
