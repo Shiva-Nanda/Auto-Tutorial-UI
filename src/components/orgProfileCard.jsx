@@ -71,7 +71,7 @@ const OrgProfileCard = (props) => {
   return (
     <React.Fragment>
       <Typography style={{ padding: "4px" }} variant="h4">
-        General
+        Organisation Profile
       </Typography>
       <Card sx={{ flexGrow: 1 }}>
         <CardContent>

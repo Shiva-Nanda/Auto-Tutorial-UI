@@ -95,16 +95,16 @@ export default function NavBar(props) {
     <div>
       <AppBar
         position="static"
-        style={{ minWidth: '100%', padding: "10px", backgroundColor: "#75E6DA" }}
+        style={{ minWidth: '100%', padding: "10px", backgroundColor: "primary" }}
       >
         <Grid container>
           <Grid item xs={3} sx={{ display: "flex", alignItems: "center" }}>
             {/* <Button>Auto Tutorial UI</Button> */}
-            <Typography component="a" href="/" style={logoStyle}>
+            <Button component="a" href="/" style={logoStyle}>
               Auto Tutorial UI
-            </Typography>
+            </Button>
           </Grid>
-          <Grid item xs={8.5}></Grid>
+          
           {user && (
             <Grid item xs={0.5}>
               <IconButton

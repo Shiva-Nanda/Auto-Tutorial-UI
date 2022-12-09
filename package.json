@@ -15,7 +15,9 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "assert": "^2.0.0",
     "bootstrap": "^5.2.1",
+    "buffer": "^6.0.3",
     "firebase": "^9.10.0",
     "material-ui": "^0.20.2",
     "package.json": "^2.0.1",
@@ -23,9 +25,11 @@
     "react-bootstrap": "^2.5.0",
     "react-dom": "^18.2.0",
     "react-firebase-hooks": "^5.0.3",
+    "react-html-parser": "^2.0.2",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.4.1",
     "react-scripts": "5.0.1",
+    "socket.io-client": "^4.5.4",
     "styled-components": "^5.3.6",
     "web-vitals": "^2.1.4"
   },
@@ -52,5 +56,19 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "index.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shiva-Nanda/Auto-Tutorial-UI.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Shiva-Nanda/Auto-Tutorial-UI/issues"
+  },
+  "homepage": "https://github.com/Shiva-Nanda/Auto-Tutorial-UI#readme"
 }

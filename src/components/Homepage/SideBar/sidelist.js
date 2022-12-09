@@ -23,8 +23,17 @@ const SideBar = (props) => {
     navigate('/createpost');
   }
 
+  const navToOrgProfile = () => {
+    navigate('/organizationProfile');
+  }
+  const navToTutorial = () => {
+    navigate('/displaytutorial');
+  }
   const navToHome = () => {
     navigate('/');
+  }
+  const navToUserProfile = () => {
+    navigate('/userProfile');
   }
   const [more, setmore] = useState(false);
   const toggle = () => {
@@ -38,7 +47,7 @@ const SideBar = (props) => {
           <Grid container spacing={1} direction="column">
             
             <Grid iterm xs={12}>
-              <Button startIcon={ <Home />}>
+              <Button onClick={navToHome} startIcon={ <Home />}>
                   Home
                 </Button>
             </Grid>
@@ -48,30 +57,26 @@ const SideBar = (props) => {
                 </Button>
             </Grid>
             <Grid iterm xs={12}>
-              <Button startIcon={ <Book />}>
+                <Button onClick={navToTutorial} startIcon={ <Book />}>
                   Tutorials
                 </Button>
             </Grid>
             <Grid iterm xs={12}>
-              <Button startIcon={ <People />}>
+              <Button onClick={ navToOrgProfile } startIcon={ <People />}>
                   Organizations
                 </Button>
             </Grid>
               <Grid iterm xs={12}>
-              <Button startIcon={ <Person />}>
+                <Button onClick={ navToUserProfile } startIcon={ <Person />}>
                   UserProfile
               </Button>
-              
             </Grid>
             <Grid iterm xs={12}>
               <Button onClick={navToPost} startIcon={ <Create />}>
-                  Create Post
+                  Create Tutorial
                 </Button>
             </Grid>
             <Grid iterm xs={12}>
-              <Button onClick={navToHome} startIcon={ <Home />}>
-                  Home
-                </Button>
             </Grid>
             <Grid container spacing={1} style={{ padding: 20 }} direction="row">
               <Grid style={{ padding: 7 }}><Twitter /></Grid>

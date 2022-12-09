@@ -21,8 +21,8 @@ const ProfileMenu = (props) => {
       <CardContent>
         <Grid container spacing={1} direction="column">
           <Grid item xs={12}>
-            <Button onClick={handleProfileClick} startIcon={<AccountCircle />} style={itemStyle}>
-              Profile
+            <Button onClick={handleProfileClick}  startIcon={<AccountCircle />}  style={itemStyle}>
+              Users
             </Button>
           </Grid>
           <Grid item xs={12}>

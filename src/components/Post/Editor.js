@@ -74,9 +74,9 @@ const Editor = (props) => {
     e.preventDefault();
     await addDoc(collection(db, "Tutorials"), {
       title,
-            uid: user.uid,
+      uid: user.uid,
       createdby,
-            orgName,
+      orgName,
       createddat,
       description,
       imgurl,

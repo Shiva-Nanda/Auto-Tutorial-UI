@@ -26,17 +26,17 @@ const OrgProfileMenu = (props) => {
       <CardContent>
         <Grid container spacing={1} direction="column">
           <Grid item xs={12}>
-            <Button style={itemStyle}>General</Button>
-          </Grid>
-          <Grid item xs={12}>
-            <Button onClick={handleUserClick} style={itemStyle}>
+            <Button onClick={handleUserClick}  startIcon={<AccountCircle />} style={itemStyle}>
               Users
             </Button>
           </Grid>
           <Grid item xs={12}>
-            <Button onClick={handleNotificationsClick} style={itemStyle}>
+            <Button onClick={handleNotificationsClick}  startIcon={<Notifications />} style={itemStyle}>
               Notifications
             </Button>
+          </Grid>
+          <Grid item xs={12}>
+            <Button  startIcon={<People />} style={itemStyle}>Organisations</Button>
           </Grid>
         </Grid>
       </CardContent>

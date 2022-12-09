@@ -5,11 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../firebase";
 import { logout } from "../contexts/newAuth";
-import { Grid, Item, TextField } from "@mui/material";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { Grid, Item, TextField, Typography } from "@mui/material";
+import { collection, getDocs, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import { getUserDetails } from "../utils/firebaseUtils";
 import SideBar from "./Homepage/SideBar/sidelist";
 import Editor from "./Post/Editor";
+import DisplayTutorial from "./displayTutorial/DisplayTutorial";
+import { io } from "socket.io-client"; 
 
 
 export default function Dashboard() {
@@ -21,7 +23,12 @@ export default function Dashboard() {
   // console.log("email" + email)
   const navigateTo = useNavigate();
   // console.log(user);
-
+  const [tutorials, setTutorials] = useState([]);
+  
+  useEffect(() => {
+    const socket = io("http://localhost:5000")
+    console.log(socket)
+  }, [])
   useEffect(() => {
     const getDetails = async () => {
       const data = await getUserDetails(user.uid);
@@ -31,13 +38,39 @@ export default function Dashboard() {
     getDetails()
     
   }, []);
+    
+  // GETTING THE TUTORIALS
+  useEffect(() => {
+    const tutorialRef = collection(db, "Tutorials");
+    const q = query(tutorialRef, orderBy("createddat", "desc"));
+    onSnapshot(q, (snapshot) => {
+      // console.log(snapshot);
+      const alltutorials = snapshot.docs.map((docs) => ({
+        id: docs.id,
+        ...docs.data(),
+      }));
+      setTutorials(alltutorials);
+    });
+  }, []);
+
+
   return (
     <>
      <React.Fragment>
-            <Grid container alignContent="left" spacing={10} style={{minWidth: '90vw'}}>
-                <Grid item xs={2} style={{minWidth: "300px"}}>
+            <Grid container spacing={10} style={{minWidth: '90vw'}}>
+              <Grid item xs={3} >
                     <SideBar/>
                 </Grid>
+             <Grid item xs={8} >
+                  { tutorials.length === 0 ? (
+                    <Typography> No Tutorials Found</Typography>
+                  ): (
+                    tutorials.map((tutorial) => (
+                        <DisplayTutorial key={tutorial.id} tutorial={tutorial}/>
+                    ))
+                  )}
+                  
+              </Grid>
             </Grid>
         </React.Fragment>
     </>
