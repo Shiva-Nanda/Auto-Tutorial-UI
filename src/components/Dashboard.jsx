@@ -25,9 +25,12 @@ export default function Dashboard() {
   // console.log(user);
   const [tutorials, setTutorials] = useState([]);
   
+  let onlineUsers = []
   useEffect(() => {
     const socket = io("http://localhost:5000")
-    console.log(socket)
+    socket.on("firstevent", (msg) => {
+      console.log(msg)
+    })
   }, [])
   useEffect(() => {
     const getDetails = async () => {

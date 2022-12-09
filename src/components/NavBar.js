@@ -17,7 +17,8 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../firebase";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { getUserDetails } from "../utils/firebaseUtils";
-
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import Noty from "./displayTutorial/notify";
 
 export default function NavBar(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -104,10 +105,13 @@ export default function NavBar(props) {
               Auto Tutorial UI
             </Button>
           </Grid>
+          <Grid item xs={7.5}></Grid>
+          <Grid item direction="row">
           
-          {user && (
-            <Grid item xs={0.5}>
-              <IconButton
+            {user && (
+              <Grid item direction="column">
+                <Button><Noty width={"30px"} color={"#FFFFFF"} count={10} /></Button>
+                <IconButton
                 style={{ padding: "0" }}
                 id="avatar-button"
                 aria-controls={open ? "profile-menu" : undefined}
@@ -131,8 +135,9 @@ export default function NavBar(props) {
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
               </Menu>
             </Grid>
-          )}
-        </Grid>
+            )}
+            </Grid>
+            </Grid>
       </AppBar>
     </div>
   );

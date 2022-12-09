@@ -1,16 +1,32 @@
 import { Server } from "socket.io";
 
-const io = new Server({ 
+
+const io = new Server({
     cors: {
         orign: "http://localhost:3000"
     }
- });
-
+});
+let onlineUsers = []
 io.on("connection", (socket) => {
   // ...
-    console.log("someone has connected");
+    [
+        {
+            username: "Maahi..!",
+            socketId: "aaa"
+        },
+        {
+            username: "Shiva",
+            socketId: "bbb"
+        },
+        {
+            username: "testing",
+            socketId: "ccc"
+        }
+        
+    ]
+    
     socket.on("disconnect", () => {
-        console.log("someone has left")
+       
     })
 });
 
