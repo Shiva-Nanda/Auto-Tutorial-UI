@@ -21,10 +21,15 @@ import { useEffect } from "react";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { db } from "../../firebase";
 import ReactHtmlParser from "react-html-parser";
-const DisplayTutorial = (tutorial) => {
+const DisplayTutorial = (tutorial,socket,user) => {
   const [liked, setLiked] = useState(false);
-  const handleLike = () => {
+  const handleLike = (type) => {
     setLiked(true);
+    socket?.emit("sendNotification", {
+      senderName: user,
+      receiverName: tutorial.tutorial.createdby,
+      type,
+    })
   }
   const handleunLike = () => {
     setLiked(false);
@@ -51,7 +56,7 @@ const DisplayTutorial = (tutorial) => {
                 <Typography gutterBottom variant="h5" component="div">
                   {tutorial.tutorial.title}
                   <Typography variant="body2" color="text.secondary">
-                    Posted On: {tutorial.createddat}
+                    Posted On: {tutorial.tutorial.createddat}
                   </Typography>
                 </Typography>
                 <div>{ReactHtmlParser(tutorial.tutorial.description)}</div>
@@ -60,14 +65,14 @@ const DisplayTutorial = (tutorial) => {
                 { liked ? (<Button size="small" onClick={handleunLike}>
                       <ThumbUpIcon />
                     </Button>): (
-                    <Button size="small" onClick={handleLike}>
+                    <Button size="small" onClick={() =>handleLike(1)}>
                       <ThumbUpOffAltIcon />
                     </Button>
                   )}
-                <Button size="small">
+                <Button size="small" onClick={() =>handleLike(2)}>
                   <CommentOutlinedIcon />
                 </Button>
-                <Button size="small">
+                <Button size="small" onClick={() =>handleLike(3)}>
                   <ShareOutlinedIcon></ShareOutlinedIcon>
                 </Button>
               </CardActions>

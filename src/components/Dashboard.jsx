@@ -14,7 +14,7 @@ import DisplayTutorial from "./displayTutorial/DisplayTutorial";
 import { io } from "socket.io-client"; 
 
 
-export default function Dashboard() {
+const Dashboard = () => {
   const [error, setError] = useState("");
   const [user, loading, userError] = useAuthState(auth);
   const [uesrDetails, setUserDetails] = useState({});
@@ -24,14 +24,19 @@ export default function Dashboard() {
   const navigateTo = useNavigate();
   // console.log(user);
   const [tutorials, setTutorials] = useState([]);
-  
-  let onlineUsers = []
+  const [userr, setUser] = useState("");
+  const [socket, setSocket] = useState(null);
+
+  let onlineUsers = [];
+
   useEffect(() => {
-    const socket = io("http://localhost:5000")
-    socket.on("firstevent", (msg) => {
-      console.log(msg)
-    })
-  }, [])
+    setSocket(io("http://localhost:5000"));
+  }, []);
+
+  useEffect(() => {
+    socket?.emit("newUser", userr);
+  }, [socket,userr]);
+
   useEffect(() => {
     const getDetails = async () => {
       const data = await getUserDetails(user.uid);
@@ -69,7 +74,7 @@ export default function Dashboard() {
                     <Typography> No Tutorials Found</Typography>
                   ): (
                     tutorials.map((tutorial) => (
-                        <DisplayTutorial key={tutorial.id} tutorial={tutorial}/>
+                      <DisplayTutorial key={tutorial.id} tutorial={tutorial}  socket={socket} user ={user}/>
                     ))
                   )}
                   
@@ -78,4 +83,5 @@ export default function Dashboard() {
         </React.Fragment>
     </>
   );
-}
+};
+export default Dashboard;

@@ -20,7 +20,7 @@ import { getUserDetails } from "../utils/firebaseUtils";
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Noty from "./displayTutorial/notify";
 
-export default function NavBar(props) {
+export default function NavBar({props}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const [user, loading, error] = useAuthState(auth);
