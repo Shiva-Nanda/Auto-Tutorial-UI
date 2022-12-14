@@ -19,15 +19,23 @@ import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
 import { deepOrange, deepPurple } from "@mui/material/colors";
 import { useEffect } from "react";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
-import { db } from "../../firebase";
+import { auth, db } from "../../firebase";
 import ReactHtmlParser from "react-html-parser";
-const DisplayTutorial = (tutorial,socket,user) => {
+import { io } from "socket.io-client";
+import { useAuthState } from "react-firebase-hooks/auth";
+
+
+
+const DisplayTutorial = (tutorial,{socket,value}) => {
   const [liked, setLiked] = useState(false);
+  const [user, loading, userError] = useAuthState(auth);
   const handleLike = (type) => {
+    const username = user.email.toString();
+    const recname = tutorial.tutorial.createdby.toString();
     setLiked(true);
-    socket?.emit("sendNotification", {
-      senderName: user,
-      receiverName: tutorial.tutorial.createdby,
+    socket.emit("sendLike", {
+      senderName: value,
+      receiverName: recname,
       type,
     })
   }

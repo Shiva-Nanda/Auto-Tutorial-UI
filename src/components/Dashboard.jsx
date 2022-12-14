@@ -14,28 +14,20 @@ import DisplayTutorial from "./displayTutorial/DisplayTutorial";
 import { io } from "socket.io-client"; 
 
 
-const Dashboard = () => {
+const Dashboard = (socket) => {
   const [error, setError] = useState("");
   const [user, loading, userError] = useAuthState(auth);
-  const [uesrDetails, setUserDetails] = useState({});
+  const [userDetails, setUserDetails] = useState({});
   const [userId, setUserId] = useState("");
   const userCollectionRef = collection(db, "users");
   // console.log("email" + email)
   const navigateTo = useNavigate();
   // console.log(user);
   const [tutorials, setTutorials] = useState([]);
-  const [userr, setUser] = useState("");
-  const [socket, setSocket] = useState(null);
+  // const [userr, setUser] = useState("");
+  // const [socket, setSocket] = useState(null);
 
   let onlineUsers = [];
-
-  useEffect(() => {
-    setSocket(io("http://localhost:5000"));
-  }, []);
-
-  useEffect(() => {
-    socket?.emit("newUser", userr);
-  }, [socket,userr]);
 
   useEffect(() => {
     const getDetails = async () => {
@@ -74,7 +66,7 @@ const Dashboard = () => {
                     <Typography> No Tutorials Found</Typography>
                   ): (
                     tutorials.map((tutorial) => (
-                      <DisplayTutorial key={tutorial.id} tutorial={tutorial}  socket={socket} user ={user}/>
+                      <DisplayTutorial key={tutorial.id} tutorial={tutorial} socket={socket} user ={user}/>
                     ))
                   )}
                   

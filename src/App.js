@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Signup from "./components/Signup";
 import Dashboard from "./components/Dashboard";
 import Login from "./components/Login";
@@ -25,15 +25,30 @@ import OrgProfile from "./components/orgProfile";
 import Editor from './components/Post/Editor';
 import UserProfileCard from "./components/UserProfile";
 import DisplayTutorial from "./components/displayTutorial/DisplayTutorial";
+import { io } from "socket.io-client";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "./firebase";
 
+const App = () => {
+  const [user, setUser] = useState("");
+  const [username, setusername] = useState("")
+  const [socket, setsocket] = useState(null);
+  
+  useEffect(() => {
+    setsocket(io("http://localhost:5000"));
 
-function App() {
+  }, []);
+
+  useEffect(() => {
+    socket?.emit("newUser",user)
+  }, [socket,user])
+
   return (
     <React.Fragment>
       {/* <BrowserRouter> */}
       {/* <AuthProvider> */}
       <Router>
-        <NavBar style={{ margin: "0" }} />
+        <NavBar style={{ margin: "0" }} socket={socket}/>
         <Container
           className="d-flex align-items-center justify-content-center"
           style={{ minHeight: "100vh", minWidth: "100vw" }}
@@ -59,7 +74,7 @@ function App() {
                 <Route path="/" element={<Login />} />
                 <Route path="/createpost" element={<Editor />} />
                 <Route path="/edit" element={<Editor />} />
-                <Route path="/displaytutorial" element={<DisplayTutorial />} />
+                <Route path="/displaytutorial" element={<DisplayTutorial  socket={socket} value={user}/>} />
               </Routes>
             </AuthProvider>
           </div>

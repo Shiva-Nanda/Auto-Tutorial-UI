@@ -20,7 +20,7 @@ import { getUserDetails } from "../utils/firebaseUtils";
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Noty from "./displayTutorial/notify";
 
-export default function NavBar({props}) {
+export default function NavBar(socket) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const [user, loading, error] = useAuthState(auth);
@@ -28,17 +28,8 @@ export default function NavBar({props}) {
   const navigateTo = useNavigate();
   const [userId, setUserId] = useState("");
   const userCollectionRef = collection(db, "users");
+  const [notifications, setnotifications] = useState([])
   //   const [error, setError] = useState("")
-
-  useEffect(() => {
-    const getDetails = async () => {
-      const data = await getUserDetails(user.uid);
-      setUserDetails(data.data);
-      setUserId(data.id);
-      //console.log(uesrDetails);
-    }
-    getDetails()
-  }, [user]);
 
 
   const handleMenuClick = (event) => {
