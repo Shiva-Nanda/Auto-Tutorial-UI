@@ -113,7 +113,7 @@ const ViewPost = (props) => {
           </Grid>
         </Grid>
 
-        <CardContent>
+        <CardContent style={{display: "flex", justifyContent: "center"}}>
           <div>{ReactHtmlParser(tut.description)}</div>
         </CardContent>
       </Card>
