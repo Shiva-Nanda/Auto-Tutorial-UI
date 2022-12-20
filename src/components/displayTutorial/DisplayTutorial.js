@@ -26,14 +26,17 @@ import { useAuthState } from "react-firebase-hooks/auth";
 
 
 
-const DisplayTutorial = (tutorial,{socket,value}) => {
+const DisplayTutorial = (props) => {
+  const tutorial =props.tutorial;
+  const socket = props.socket;
+  const value = props.value;
   const [liked, setLiked] = useState(false);
   const [user, loading, userError] = useAuthState(auth);
   const handleLike = (type) => {
     const username = user.email.toString();
-    const recname = tutorial.tutorial.createdby.toString();
+    const recname = tutorial.createdby.toString();
     setLiked(true);
-    socket.emit("sendLike", {
+    socket?.emit("sendLike", {
       senderName: value,
       receiverName: recname,
       type,
@@ -49,25 +52,25 @@ const DisplayTutorial = (tutorial,{socket,value}) => {
               <CardMedia
                 component="img"
                 height="140"
-                image={tutorial.tutorial.imgurl}
+                image={tutorial.imgurl}
               />
               <CardContent>
                 <Typography gutterBottom varient="h5" component="div">
                   <Avatar>
                     <AccountCircleRoundedIcon></AccountCircleRoundedIcon>
                   </Avatar>
-                  {tutorial.tutorial.createdby}
+                  {tutorial.createdby}
                   <Typography variant="body2" color="text.secondary">
-                    from {tutorial.tutorial.orgName}
+                    from {tutorial.orgName}
                   </Typography>
                 </Typography>
                 <Typography gutterBottom variant="h5" component="div">
-                  {tutorial.tutorial.title}
+                  {tutorial.title}
                   <Typography variant="body2" color="text.secondary">
-                    Posted On: {tutorial.tutorial.createddat}
+                    Posted On: {tutorial.createddat}
                   </Typography>
                 </Typography>
-                <div>{ReactHtmlParser(tutorial.tutorial.description)}</div>
+                <div>{ReactHtmlParser(tutorial.description)}</div>
               </CardContent>
               <CardActions>
                 { liked ? (<Button size="small" onClick={handleunLike}>

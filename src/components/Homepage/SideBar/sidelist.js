@@ -78,12 +78,12 @@ const SideBar = (props) => {
             </Grid>
             <Grid iterm xs={12}>
             </Grid>
-            <Grid container spacing={1} style={{ padding: 20 }} direction="row">
+            {/* <Grid container spacing={1} style={{ padding: 20 }} direction="row">
               <Grid style={{ padding: 7 }}><Twitter /></Grid>
               <Grid style={{ padding: 7 }}><Facebook /></Grid>
               <Grid style={{ padding: 7 }}><GitHub /></Grid>
               <Grid style={{ padding: 7 }}><Instagram /></Grid>
-          </Grid>
+          </Grid> */}
     
         </Grid>
         </CardContent>

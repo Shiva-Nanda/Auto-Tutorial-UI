@@ -33,16 +33,13 @@ import ViewPost from "./components/viewPost/ViewPost";
 const App = () => {
   const [user, setUser] = useState("");
   const [username, setusername] = useState("")
-  const [socket, setsocket] = useState(null);
-  
-  useEffect(() => {
-    setsocket(io("http://localhost:5000"));
-
-  }, []);
+  //const [socket, setsocket] = useState(null);
+  const socket = io('http://localhost:5000')  
+  socket.on("connect", () => { });
 
   useEffect(() => {
     socket?.emit("newUser",user)
-  }, [socket,user])
+  }, [user]);
 
   return (
     <React.Fragment>

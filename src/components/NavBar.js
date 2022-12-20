@@ -19,8 +19,10 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { getUserDetails } from "../utils/firebaseUtils";
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Noty from "./displayTutorial/notify";
+import { io } from "socket.io-client";
 
-export default function NavBar(socket) {
+const NavBar = (props) => {
+  const socket = props.socket; 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const [user, loading, error] = useAuthState(auth);
@@ -29,9 +31,9 @@ export default function NavBar(socket) {
   const [userId, setUserId] = useState("");
   const userCollectionRef = collection(db, "users");
   const [notifications, setnotifications] = useState([])
-  //   const [error, setError] = useState("")
 
-
+ 
+   console.log(notifications);
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -134,3 +136,4 @@ export default function NavBar(socket) {
   );
 };
 
+export default NavBar;
