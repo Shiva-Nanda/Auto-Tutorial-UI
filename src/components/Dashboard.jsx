@@ -14,7 +14,7 @@ import DisplayTutorial from "./displayTutorial/DisplayTutorial";
 import { io } from "socket.io-client"; 
 
 
-const Dashboard = (socket) => {
+const Dashboard = ({socket}) => {
   const [error, setError] = useState("");
   const [user, loading, userError] = useAuthState(auth);
   const [userDetails, setUserDetails] = useState({});
@@ -25,13 +25,13 @@ const Dashboard = (socket) => {
   // console.log(user);
   const [tutorials, setTutorials] = useState([]);
   // const [userr, setUser] = useState("");
-  // const [socket, setSocket] = useState(null);
 
   let onlineUsers = [];
 
   useEffect(() => {
     const getDetails = async () => {
       const data = await getUserDetails(user.uid);
+      console.log(data)
       setUserDetails(data.data);
       setUserId(data.id);
     }

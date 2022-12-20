@@ -41,7 +41,7 @@ const DisplayTutorial = (props) => {
       receiverName: recname,
       type,
     })
-  }
+  };
   const handleunLike = () => {
     setLiked(false);
   }

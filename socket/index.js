@@ -4,7 +4,8 @@ import { Server } from "socket.io";
 
 const io = new Server({
     cors: {
-        origin: "http://localhost:3000"
+        origin: "http://localhost:3000",
+        methods: ['GET','POST']
     }
 });
 
@@ -30,9 +31,9 @@ io.on("connection", (socket) => {
         addNewUser(username, socket.id);
     });
 
-    socket.on("sendLike", ({ senderName, receiverName, type }) => {
-        const receiver = getUser(receiverName);
-        io.to(receiver.socketId).emit("getNotification", {
+    socket.on("sendLike", (data) => {
+        const { senderName, receiverName, type } = data;
+        io.to(receiverName.socketId).emit("getNotification", {
             senderName,
             type
         })

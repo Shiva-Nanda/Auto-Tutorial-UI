@@ -28,18 +28,19 @@ import DisplayTutorial from "./components/displayTutorial/DisplayTutorial";
 import { io } from "socket.io-client";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "./firebase";
-import ViewPost from "./components/viewPost/ViewPost";
 
-const App = () => {
+const App =  ()  => {
   const [user, setUser] = useState("");
   const [username, setusername] = useState("")
   //const [socket, setsocket] = useState(null);
-  const socket = io('http://localhost:5000')  
-  socket.on("connect", () => { });
+  
+  const socket =io('http://localhost:5000');
+  socket.on("connect", () => {});
+
 
   useEffect(() => {
     socket?.emit("newUser",user)
-  }, [user]);
+  }, [socket,user]);
 
   return (
     <React.Fragment>
@@ -49,12 +50,12 @@ const App = () => {
         <NavBar style={{ margin: "0" }} socket={socket}/>
         <Container
           className="d-flex align-items-center justify-content-center"
-          style={{ minHeight: "100vh", minWidth: "96vw" }}
+          style={{ minHeight: "100vh", minWidth: "100vw" }}
         >
           <div>
             <AuthProvider>
               <Routes>
-                <Route path="/debug" element={<ViewPost />} />
+                {/* <Route path="/debug" element={<OrgProfile />} /> */}
                 <Route path="/organizationProfile" element={<OrgProfile />} />
                 <Route path="/userProfile" element={ <UserProfileCard/>}/>
                 <Route path="/profileCreation" element={<Profiles />} />
@@ -63,7 +64,7 @@ const App = () => {
                   path="/"
                   element={
                     <PrivateRoute>
-                      <Dashboard />
+                      <Dashboard socket={socket} />
                     </PrivateRoute>
                   }
                 />
